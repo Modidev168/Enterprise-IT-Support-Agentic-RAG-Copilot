@@ -1,7 +1,12 @@
-from app.core.config import get_settings
+from app.services.ingestion import load_file , chunk_documents
+from pathlib import Path
+from app.rag.vectorstore import add_documents , get_embeddings
 
-settings = get_settings()
+docs = load_file(Path("data/sample_kb/company_it_handbook.md"))
+chunks = chunk_documents(docs)
+embeddings = get_embeddings()
 
-print(f"App Name : {settings.app_name}")
-print(f"App Environment : {settings.app_env}")
-print(f"Groq Api key : {settings.groq_api_key}")
+# vector = embeddings.embed_query("What is Agentic RAG?")
+
+# print("Embedding dimension:", len(vector))
+add_documents(chunks)
